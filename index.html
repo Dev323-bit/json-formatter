@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura JSON Formatter — Format, Validate & Minify JSON Instantly</title>
+    <meta name="description"
+        content="A beautiful, private, client-side JSON formatter, validator, and minifier. 100% offline with syntax highlighting, live validation, and error line highlighting.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+    <!-- Ambient Aura Background Blobs -->
+    <div class="aura-bg">
+        <div class="aura-blob aura-blob-1"></div>
+        <div class="aura-blob aura-blob-2"></div>
+        <div class="aura-blob aura-blob-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Main Top Header -->
+        <header class="header-main">
+            <div class="header-left">
+                <h1>Aura <span>JSON Formatter</span></h1>
+                <p class="subtitle">Format, validate & minify JSON instantly. Completely client-side for absolute privacy.</p>
+            </div>
+            <div class="header-right">
+                <button id="clear-btn" class="header-btn destructive" title="Clear input and output (Alt+C)">
+                    <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+                    Clear
+                </button>
+                <button id="copy-btn" class="header-btn success" title="Copy formatted output to clipboard (Alt+K)">
+                    <i data-lucide="copy" style="width: 15px; height: 15px;"></i>
+                    Copy
+                </button>
+            </div>
+        </header>
+
+        <!-- Tab Row & Nav Bar -->
+        <div class="nav-row">
+            <div class="tabs-group">
+                <button id="tab-format" class="tab-btn active" data-mode="format" title="Pretty print JSON (Alt+F)">
+                    <i data-lucide="code" style="width: 15px; height: 15px;"></i>
+                    Format
+                </button>
+                <button id="tab-minify" class="tab-btn" data-mode="minify" title="Collapse JSON into single line (Alt+M)">
+                    <i data-lucide="minimize-2" style="width: 15px; height: 15px;"></i>
+                    Minify
+                </button>
+                <button id="tab-sample" class="tab-btn" data-mode="sample" title="Load sample JSON (Alt+S)">
+                    <i data-lucide="file-json" style="width: 15px; height: 15px;"></i>
+                    Sample
+                </button>
+            </div>
+            
+            <div class="badge-container">
+                <div id="validity-badge" class="badge badge-neutral">
+                    <i data-lucide="help-circle" style="width: 14px; height: 14px;"></i>
+                    <span>Empty Input</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <!-- Left Side: Input Panel -->
+            <section class="panel-card" id="input-card">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <i data-lucide="edit-3" style="width: 14px; height: 14px; color: var(--color-primary);"></i>
+                        <span class="panel-title">INPUT</span>
+                    </div>
+                    <span class="shortcut-hint" id="shortcut-label">Ctrl + Enter to format</span>
+                </div>
+
+                <div class="editor-area">
+                    <div class="gutter" id="line-gutter">
+                        <span>1</span>
+                    </div>
+                    <textarea id="json-input" placeholder="Paste raw JSON here..." autocomplete="off" spellcheck="false"></textarea>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="stats-counter">
+                        <span class="stat-item"><strong id="input-chars">0</strong> characters</span>
+                        <span class="stat-divider">|</span>
+                        <span class="stat-item"><strong id="input-lines">1</strong> lines</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Side: Output Panel -->
+            <section class="panel-card" id="output-card">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <i data-lucide="terminal" style="width: 14px; height: 14px; color: var(--color-secondary);"></i>
+                        <span class="panel-title">OUTPUT</span>
+                    </div>
+                </div>
+
+                <div class="output-area">
+                    <!-- Empty State Placeholder -->
+                    <div id="output-empty" class="empty-state">
+                        <div class="empty-icon-wrapper">
+                            <i data-lucide="braces" class="empty-icon"></i>
+                        </div>
+                        <h3>Formatted JSON Output</h3>
+                        <p>Your pretty-printed or minified JSON will appear here instantly when formatted.</p>
+                    </div>
+
+                    <!-- Rendered Highlighted Output -->
+                    <div id="output-rendered-container" class="output-rendered-wrapper hidden">
+                        <pre><code id="output-rendered"></code></pre>
+                    </div>
+
+                    <!-- Error Alert Panel -->
+                    <div id="output-error-container" class="error-wrapper hidden">
+                        <div class="error-header">
+                            <i data-lucide="alert-octagon" style="width: 18px; height: 18px; color: var(--color-error);"></i>
+                            <span>Invalid JSON Syntax</span>
+                        </div>
+                        <div class="error-body">
+                            <p id="error-message" class="error-msg">SyntaxError: Unexpected token in JSON</p>
+                            <p id="error-location" class="error-loc">Line --, Column --</p>
+                        </div>
+                        <div class="error-context">
+                            <pre><code id="error-context-lines"></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="stats-counter">
+                        <span class="stat-item"><strong id="output-size">0 B</strong> formatted</span>
+                        <span class="stat-divider">|</span>
+                        <span class="stat-item"><strong id="output-nodes">0</strong> nodes</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Privacy Info Section -->
+        <div class="privacy-banner">
+            <span class="privacy-badge">
+                <i data-lucide="shield-check" style="width: 15px; height: 15px;"></i>
+                100% Client-Side. No data is sent to any server. Your JSON stays safe in your browser.
+            </span>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Part of the <strong class="aura-title">Aura</strong> utility series — 100% private client-side utilities.</p>
+            <div class="footer-links">
+                <a href="../text-to-pdf" class="footer-link">Aura Text-to-PDF</a>
+                <span class="bullet">•</span>
+                <a href="../pdf-compressor" class="footer-link">Aura Compressor</a>
+                <span class="bullet">•</span>
+                <a href="../pdf-splitter" class="footer-link">Aura Splitter</a>
+                <span class="bullet">•</span>
+                <a href="../color-palette-extractor" class="footer-link">Aura Palette</a>
+                <span class="bullet">•</span>
+                <a href="../img-converter" class="footer-link">Aura Convert</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Main Application Script -->
+    <script src="app.js"></script>
+</body>
+
+</html>
