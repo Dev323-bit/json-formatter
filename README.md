@@ -1,27 +1,42 @@
-# Aura JSON Formatter
+# JSON Formatter
 
-A beautiful, private, client-side JSON formatter, validator, and minifier. Part of the Aura utility series.
+Format, validate & minify JSON instantly — a fast, privacy-first utility with live validation and syntax-highlighted output.
+
+**Part of the Aura Utility Challenge — 11/30**
+
+🔗 Live: [json-formatter-roan.vercel.app](https://json-formatter-roan.vercel.app/)
+
+---
 
 ## Features
 
-- **Live JSON Validation**: Validates JSON syntax as you type with a debounced live badge indicating `✓ Valid` or `✗ Invalid`.
-- **Pretty Print & Minify Modes**: Toggle between 2-space indented formatting and single-line compact minification.
-- **Detailed Error Handling**: Displays clean syntax error alerts including line/column details and a contextual code snippet showing exactly where the syntax error is.
-- **Syntax Highlighting**: Beautifully tokenizes output into distinct colors for keys, strings, numbers, booleans, and null values.
-- **Clipboard & Workspace Actions**: Instantly copy outputs with visual confirmation or clear the editor.
-- **Keyboard Shortcuts**:
-  - `Ctrl + Enter` (or `⌘ + Enter` on macOS): Format JSON input.
-  - `Alt + F`: Switch to Format Mode.
-  - `Alt + M`: Switch to Minify Mode.
-  - `Alt + S`: Load Sample JSON.
-  - `Alt + C`: Clear Workspace.
-  - `Alt + K`: Copy Output to Clipboard.
+- ⚡ **Live validation** — see instantly whether your JSON is valid as you type
+- 🎨 **Format** — pretty-print with 2-space indentation and syntax highlighting
+- 📦 **Minify** — collapse JSON into a single compact line
+- 📋 **Sample data** — load example JSON to test the tool
+- ⌨️ **Keyboard shortcut** — `⌘ + Enter` / `Ctrl + Enter` to format instantly
+- 📄 **Copy to clipboard** — one-click copy of formatted output
+- 🔒 **100% client-side** — no data ever leaves your browser
 
-## Running Locally
+## Tech Stack
 
-Since this tool is built entirely using vanilla HTML/CSS/JS without build tools or external server dependencies:
-1. Double-click or open `index.html` in any modern web browser.
-2. Alternatively, serve it locally:
-   ```bash
-   npx serve .
-   ```
+- Vanilla HTML, CSS, JavaScript
+- No frameworks, no build tools
+- Deployed on [Vercel](https://vercel.com)
+
+## Getting Started
+
+```bash
+git clone https://github.com/Dev323-bit/json-formatter.git
+cd json-formatter
+```
+## About Aura
+
+Aura is a 30-day challenge to design and ship one privacy-first, client-side web utility every day — unified under a dark, cinematic aesthetic. No backend, no tracking, no bloat.
+
+## License
+
+MIT
+Open `index.html` in your browser — no build step required.
+
+## Project Structure
